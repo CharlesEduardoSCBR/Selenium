@@ -44,8 +44,6 @@ public class UsuariosSystemTest {
 
 		assertTrue(achouNome);
 		assertTrue(achouEmail);
-		
-		driver.close();
 	}
 
 	@Test
@@ -69,8 +67,6 @@ public class UsuariosSystemTest {
 		boolean achouErro = driver.getPageSource().contains("Nome obrigatorio!");
 
 		assertTrue(achouErro);
-		
-		driver.close();
 	}
 	
 	@Test
@@ -95,7 +91,5 @@ public class UsuariosSystemTest {
 		boolean achouErroEmail = driver.getPageSource().contains("Nome obrigatorio!");
 
 		assertTrue(achouErroNome && achouErroEmail);
-		
-		driver.close();
 	}
 }
