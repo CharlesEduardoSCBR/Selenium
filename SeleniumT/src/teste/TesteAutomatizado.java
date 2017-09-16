@@ -15,7 +15,7 @@ public class TesteAutomatizado {
 		//System.setProperty("webdriver.firefox.bin", "C:/Program Files (x86)/Mozilla Firefox/firefox");
 		//WebDriver drive = new FirefoxDriver();
 		
-		drive.get("http://www.google.com.br");
+		drive.get("http://www.bing.com.br");
 		
 		WebElement campoDeTexto = drive.findElement(By.name("q"));
 		campoDeTexto.sendKeys("Caelum");
