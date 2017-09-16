@@ -25,4 +25,8 @@ public class UsuarioPage {
 				driver.getPageSource().contains(emailUsuario);
 	}
 
+	public boolean existenaListagem(String texto) {
+		return driver.getPageSource().contains(texto);
+	}
+
 }

@@ -2,32 +2,53 @@ package br.alura.selenium.test;
 
 import static org.junit.Assert.assertTrue;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import java.io.File;
 
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.BlockJUnit4ClassRunner;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriverService;
+import org.openqa.selenium.remote.DesiredCapabilities;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+@RunWith(BlockJUnit4ClassRunner.class)
 public class UsuariosSystemTest {
 
 	static String nomeUsuario = "Adriano Xavier";
 	static String emailUsuario = "axavier@emresa.com.br";
 	private WebDriver driver;
-	private WebDriver driverChrome;
+	private static ChromeDriverService service;
 	private UsuarioPage usuario;
 
-	@Before
-	public void init() {
-		System.setProperty("webdriver.chrome.driver",
-				"C:/Users/charl_000/Documents/Cursos/Alura/Trilhas/00 - Java All/00 - Selenium/00-selenium/chromedriver_win32/chromedriver.exe");
-		this.driverChrome = new ChromeDriver();
-		this.usuario = new UsuarioPage(driverChrome);
+	@BeforeClass
+	public static void init() throws Exception {
+		service = new ChromeDriverService
+								.Builder()
+								.usingDriverExecutable(new File("C:/Users/charl_000/Documents/Cursos/Alura/Trilhas/00 - Java All/00 - Selenium/00-selenium/chromedriver_win32/chromedriver.exe"))
+								.usingAnyFreePort()
+								.build();
+		service.start();
 	}
 
+	@AfterClass
+	public static void endTest() throws InterruptedException {
+		service.stop();
+	}
+	
 	@Before
-	public void endTest() {
-		this.driverChrome.close();
+	public void initDriver(){
+		this.driver = new RemoteWebDriver(service.getUrl(), DesiredCapabilities.chrome());
+		this.usuario = new UsuarioPage(driver);
+	}
+	
+	@After
+	public void endDriver(){
+		driver.quit();
 	}
 
 	@Test
@@ -38,74 +59,38 @@ public class UsuariosSystemTest {
 		
 		assertTrue(usuario.existenaListagem(nomeUsuario, emailUsuario));
 	}
-	/*
-	@Test
-	public void deveAdicionarUmUsuarioSemNome() {
-		System.setProperty("webdriver.chrome.driver",
-				"C:/Users/charl_000/Documents/Cursos/Alura/Trilhas/00 - Java All/00 - Selenium/00-selenium/chromedriver_win32/chromedriver.exe");
-		driver = new ChromeDriver();
-		
-		String userEmpty = "";
-		driver.get("http://localhost:8080/usuarios/new");
-
-		WebElement nome = driver.findElement(By.name("usuario.nome"));
-		WebElement email = driver.findElement(By.name("usuario.email"));
-
-		nome.sendKeys(userEmpty);
-		email.sendKeys(emailUsuario);
-
-		WebElement botaoSalvar = driver.findElement(By.id("btnSalvar"));
-		botaoSalvar.click();
-
-		boolean achouErro = driver.getPageSource().contains("Nome obrigatorio!");
-
-		assertTrue(achouErro);
-		
-		driver.close();
-	}
 	
+	@Test
+	public void deveAdicionarUmUsuarioSemNome() {		
+		String userEmpty = "";
+
+		usuario.visita();
+		usuario.novo()
+			   .cadastra(userEmpty, emailUsuario);
+		
+		assertTrue(usuario.existenaListagem(userEmpty));
+	}
+
 	@Test
 	public void deveAdicionarUmUsuarioSemNomeEEmail() {
-		System.setProperty("webdriver.chrome.driver",
-				"C:/Users/charl_000/Documents/Cursos/Alura/Trilhas/00 - Java All/00 - Selenium/00-selenium/chromedriver_win32/chromedriver.exe");
-		driver = new ChromeDriver();
-		
 		String empty = "";
-		driver.get("http://localhost:8080/usuarios/new");
-
-		WebElement nome = driver.findElement(By.name("usuario.nome"));
-		WebElement email = driver.findElement(By.name("usuario.email"));
-
-		nome.sendKeys(empty);
-		email.sendKeys(empty);
-
-		WebElement botaoSalvar = driver.findElement(By.id("btnSalvar"));
-		botaoSalvar.click();
-
-		boolean achouErroNome = driver.getPageSource().contains("Nome obrigatorio!");
-		boolean achouErroEmail = driver.getPageSource().contains("Nome obrigatorio!");
-
-		assertTrue(achouErroNome && achouErroEmail);
 		
-		driver.close();
+		usuario.visita();
+		usuario.novo()
+			   .cadastra(empty, empty);
+		
+		boolean erroNome = usuario.existenaListagem("Nome obrigatorio!");
+		boolean erroEmail =  usuario.existenaListagem("E-mail obrigatorio!");
+		
+		assertTrue(erroNome && erroEmail);
 	}
-	
+
 	@Test
 	public void verificalinkNovoUsuario() {
-		System.setProperty("webdriver.chrome.driver",
-				"C:/Users/charl_000/Documents/Cursos/Alura/Trilhas/00 - Java All/00 - Selenium/00-selenium/chromedriver_win32/chromedriver.exe");
-		driver = new ChromeDriver();
-
-		driver.get("http://localhost:8080/usuarios");
-
-		WebElement novoUsuario = driver.findElement(By.linkText("Novo Usuário"));
-		novoUsuario.click();
-
-		boolean achouNameNome = driver.getPageSource().contains("novo.usuario");
-
-		assertTrue(achouNameNome);
+		usuario.visita();
+		boolean isLinkNovoUsuario  = usuario.existenaListagem("Novo Usuário");
 		
-		driver.close();
+		assertTrue(isLinkNovoUsuario);
 	}
-	*/
+	
 }
