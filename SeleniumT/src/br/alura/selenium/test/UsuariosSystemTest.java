@@ -72,4 +72,30 @@ public class UsuariosSystemTest {
 		
 		driver.close();
 	}
+	
+	@Test
+	public void deveAdicionarUmUsuarioSemNomeEEmail() {
+		System.setProperty("webdriver.chrome.driver",
+				"C:/Users/charl_000/Documents/Cursos/Alura/Trilhas/00 - Java All/00 - Selenium/00-selenium/chromedriver_win32/chromedriver.exe");
+		driver = new ChromeDriver();
+		
+		String empty = "";
+		driver.get("http://localhost:8080/usuarios/new");
+
+		WebElement nome = driver.findElement(By.name("usuario.nome"));
+		WebElement email = driver.findElement(By.name("usuario.email"));
+
+		nome.sendKeys(empty);
+		email.sendKeys(empty);
+
+		WebElement botaoSalvar = driver.findElement(By.id("btnSalvar"));
+		botaoSalvar.click();
+
+		boolean achouErroNome = driver.getPageSource().contains("Nome obrigatorio!");
+		boolean achouErroEmail = driver.getPageSource().contains("Nome obrigatorio!");
+
+		assertTrue(achouErroNome && achouErroEmail);
+		
+		driver.close();
+	}
 }
