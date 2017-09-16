@@ -10,8 +10,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 public class UsuariosSystemTest {
 	
-	static String nomeUsuario = "Ronaldo Luiz de Albuquerque";
-	static String emailUsuario = "ronaldo2009@terra.com.br";
+	static String nomeUsuario = "Adriano Xavier";
+	static String emailUsuario = "axavier@emresa.com.br";
 
 	@Test
 	public void deveAdicionarUmUsuario() {
