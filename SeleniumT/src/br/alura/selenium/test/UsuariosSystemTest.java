@@ -44,6 +44,8 @@ public class UsuariosSystemTest {
 
 		assertTrue(achouNome);
 		assertTrue(achouEmail);
+		
+		driver.close();
 	}
 
 	@Test
@@ -67,6 +69,8 @@ public class UsuariosSystemTest {
 		boolean achouErro = driver.getPageSource().contains("Nome obrigatorio!");
 
 		assertTrue(achouErro);
+		
+		driver.close();
 	}
 	
 	@Test
@@ -91,5 +95,25 @@ public class UsuariosSystemTest {
 		boolean achouErroEmail = driver.getPageSource().contains("Nome obrigatorio!");
 
 		assertTrue(achouErroNome && achouErroEmail);
+		
+		driver.close();
+	}
+	
+	@Test
+	public void verificalinkNovoUsuario() {
+		System.setProperty("webdriver.chrome.driver",
+				"C:/Users/charl_000/Documents/Cursos/Alura/Trilhas/00 - Java All/00 - Selenium/00-selenium/chromedriver_win32/chromedriver.exe");
+		driver = new ChromeDriver();
+
+		driver.get("http://localhost:8080/usuarios");
+
+		WebElement novoUsuario = driver.findElement(By.linkText("Novo Usuário"));
+		novoUsuario.click();
+
+		boolean achouNameNome = driver.getPageSource().contains("novo.usuario");
+
+		assertTrue(achouNameNome);
+		
+		driver.close();
 	}
 }
