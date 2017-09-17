@@ -13,7 +13,7 @@ import org.openqa.selenium.chrome.ChromeDriverService;
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
 
-import br.alura.selenium.test.UsuarioPage;
+import br.alura.selenium.test.CriadorDeCenarios;
 import br.alura.selenium.test.leilao.LeiloesPage;
 
 public class LanceSystemTest {
@@ -21,6 +21,7 @@ public class LanceSystemTest {
 	private WebDriver driver;
 	private static ChromeDriverService service;
 	private LeiloesPage leiloes;
+	private DetalhesDoLeilaoPage lances;
 	
 	@BeforeClass
 	public static void init() throws Exception {
@@ -40,24 +41,24 @@ public class LanceSystemTest {
 	@Before
 	public void initDriver() {
 		this.driver = new RemoteWebDriver(service.getUrl(), DesiredCapabilities.chrome());
-		this.driver.get("http://localhost:8080/apenas-teste/limpa");
+		this.driver.get("http://localhost:8080/apenas-teste/limpa");     
+	}
+	
+	@Before
+	public void criaCenario() {
 		
-		UsuarioPage usuarios = new UsuarioPage(driver);
-        usuarios.visita();
-        usuarios.novo().cadastra("Paulo Henrique", "paulo@henrique.com");
-        usuarios.novo().cadastra("José Alberto", "jose@alberto.com");
-
-        leiloes = new LeiloesPage(driver);
-        leiloes.visita();
-        leiloes.novo().preenche("Geladeira", 100, "Paulo Henrique", false);
+		new CriadorDeCenarios(driver)
+			.umUsuario("Paulo Henrique", "paulo@henrique.com")
+			.umUsuario("José Alberto", "jose@alberto.com")
+			.umLeilao("Geladeira", 100.00, "Paulo Henrique", false);
 	}
 	
 	@Test
 	public void deveFazerUmLance(){
-		DetalhesDoLeilaoPage lances = leiloes.detalhe(1);
+		lances = new DetalhesDoLeilaoPage(driver);
+		lances = leiloes.detalhe(1);
 		lances.lance("José Alberto", 150.00);
 		
 		assertTrue(lances.existeLance("José Alberto", 150.00));
-		
 	}
 }
