@@ -26,6 +26,10 @@ public class LeiloesPage {
 				driver.getPageSource().contains(usuario) &&
 				driver.getPageSource().contains(usado ? "Sim" : "Não");
 	}
+
+	public boolean existe(String texto) {
+		return driver.getPageSource().contains(texto);
+	}
 	
 	
 }

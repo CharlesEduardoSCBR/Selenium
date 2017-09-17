@@ -65,5 +65,18 @@ public class LeiloesSystemTest {
 		assertTrue(leiloes.existe("Geladeira", 123.00, "P", true));
 		
 	}
+	
+	@Test
+	public void tentaCadastrarUmLeilaoSemNomeEValor(){
+		leiloes.visita();
+		
+		NovoLeilaoPage novoLeiao = leiloes.novo();
+		novoLeiao.preenche("", 0, "P", true);
+		
+		boolean nomeEmpty = leiloes.existe("Nome obrigatorio!");
+		boolean valorEmpty = leiloes.existe("Valor inicial deve ser maior que zero!");
+		
+		assertTrue(nomeEmpty && valorEmpty);
+	}
 
 }
