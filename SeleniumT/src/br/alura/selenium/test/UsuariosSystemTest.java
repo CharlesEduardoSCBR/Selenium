@@ -1,5 +1,6 @@
 package br.alura.selenium.test;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
@@ -58,6 +59,8 @@ public class UsuariosSystemTest {
 			   .cadastra(nomeUsuario, emailUsuario);
 		
 		assertTrue(usuario.existenaListagem(nomeUsuario, emailUsuario));
+		
+		usuario.deletaUsuarioNaPosicao(1);
 	}
 	
 	@Test
@@ -91,6 +94,17 @@ public class UsuariosSystemTest {
 		boolean isLinkNovoUsuario  = usuario.existenaListagem("Novo Usuário");
 		
 		assertTrue(isLinkNovoUsuario);
+	}
+
+	@Test
+	public void deveDeletarUmUsuario(){
+		usuario.visita();
+		usuario.novo()
+			   .cadastra(nomeUsuario, emailUsuario);
+		
+		usuario.deletaUsuarioNaPosicao(1);
+		
+		assertFalse(usuario.existenaListagem(nomeUsuario, emailUsuario));
 	}
 	
 }
