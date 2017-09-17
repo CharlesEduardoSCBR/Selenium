@@ -41,6 +41,7 @@ public class LeiloesSystemTest {
 	@Before
 	public void initDriver() {
 		this.driver = new RemoteWebDriver(service.getUrl(), DesiredCapabilities.chrome());
+		this.driver.get("http://localhost:8080/apenas-teste/limpa");
 		
 		this.usuario = new UsuarioPage(driver);
 		this.usuario.visita();

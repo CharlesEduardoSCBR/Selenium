@@ -44,6 +44,7 @@ public class UsuariosSystemTest {
 	@Before
 	public void initDriver(){
 		this.driver = new RemoteWebDriver(service.getUrl(), DesiredCapabilities.chrome());
+		this.driver.get("http://localhost:8080/apenas-teste/limpa");
 		this.usuario = new UsuarioPage(driver);
 	}
 	
@@ -51,7 +52,7 @@ public class UsuariosSystemTest {
 	public void endDriver(){
 		driver.quit();
 	}
-	/*
+
 	@Test
 	public void deveAdicionarUmUsuario() {
 		usuario.visita();
@@ -106,7 +107,7 @@ public class UsuariosSystemTest {
 		
 		assertFalse(usuario.existenaListagem(nomeUsuario, emailUsuario));
 	}
-*/
+
 	@Test
 	public void deveEditarUsuario(){
 		usuario.visita();
