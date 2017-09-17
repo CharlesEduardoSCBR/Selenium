@@ -51,7 +51,7 @@ public class UsuariosSystemTest {
 	public void endDriver(){
 		driver.quit();
 	}
-
+	/*
 	@Test
 	public void deveAdicionarUmUsuario() {
 		usuario.visita();
@@ -106,5 +106,16 @@ public class UsuariosSystemTest {
 		
 		assertFalse(usuario.existenaListagem(nomeUsuario, emailUsuario));
 	}
-	
+*/
+	@Test
+	public void deveEditarUsuario(){
+		usuario.visita();
+		usuario.novo().cadastra("Pedro", "p@p");
+		usuario.editarNome("Regina");
+		
+		boolean existeUsuarioAlterado = usuario.existenaListagem("Regina", "p@p");
+		
+		assertTrue(existeUsuarioAlterado);
+		
+	}
 }
