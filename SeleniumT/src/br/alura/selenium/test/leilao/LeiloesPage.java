@@ -1,7 +1,12 @@
 package br.alura.selenium.test.leilao;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import br.alura.selenium.test.lance.DetalhesDoLeilaoPage;
 
 public class LeiloesPage {
 
@@ -29,6 +34,13 @@ public class LeiloesPage {
 
 	public boolean existe(String texto) {
 		return driver.getPageSource().contains(texto);
+	}
+
+	public DetalhesDoLeilaoPage detalhe(int posicao) {
+		List<WebElement> elementos = driver.findElements(By.linkText("exibir"));
+		elementos.get(posicao -1).click();
+		
+		return new DetalhesDoLeilaoPage(driver);
 	}
 	
 	
