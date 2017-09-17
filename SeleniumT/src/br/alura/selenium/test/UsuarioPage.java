@@ -52,4 +52,9 @@ public class UsuarioPage {
 		botaoSalvar.click();
 	}
 
+	public AlteraUsuarioPage altera(int posicao) {
+		driver.findElements(By.linkText("editar")).get(posicao - 1).click();
+		return new AlteraUsuarioPage(driver);
+	}
+
 }

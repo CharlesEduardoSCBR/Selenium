@@ -111,11 +111,11 @@ public class UsuariosSystemTest {
 	public void deveEditarUsuario(){
 		usuario.visita();
 		usuario.novo().cadastra("Pedro", "p@p");
-		usuario.editarNome("Regina");
+		usuario.altera(1).para("Regina", "r@r");
 		
-		boolean existeUsuarioAlterado = usuario.existenaListagem("Regina", "p@p");
 		
-		assertTrue(existeUsuarioAlterado);
+		assertFalse(usuario.existenaListagem("Pedro", "p@p"));
+		assertTrue(usuario.existenaListagem("Regina", "r@r"));
 		
 	}
 }
